@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedRemind - Smart Medicine Reminder</title>
+<link rel="mainfest" href="./mainfest.json">
+<style>
+:root{
+  --primary:#2563eb;
+  --primary-hover:#1d4ed8;
+  --primary-light:#eff6ff;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --success:#16a34a;
+  --success-bg:#dcfce7;
+  --warning:#d97706;
+  --warning-bg:#fef3c7;
+  --danger:#dc2626;
+  --danger-bg:#fee2e2;
+  --shadow:0 8px 25px rgba(15,23,42,.08);
+  --radius:14px;
+}
+
+[data-theme="dark"]{
+  --primary:#60a5fa;
+  --primary-hover:#93c5fd;
+  --primary-light:#1e293b;
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --border:#334155;
+  --success:#4ade80;
+  --success-bg:#064e3b;
+  --warning:#fbbf24;
+  --warning-bg:#78350f;
+  --danger:#f87171;
+  --danger-bg:#7f1d1d;
+  --shadow:0 8px 25px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.navbar{
+  min-height:70px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  color:var(--primary);
+  text-decoration:none;
+  font-size:1.35rem;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-icon{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:var(--primary);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:10px 17px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-primary:hover{
+  background:var(--primary-hover);
+}
+
+.btn-outline{
+  background:transparent;
+  color:var(--primary);
+  border:1px solid var(--primary);
+}
+
+.btn-danger{
+  background:var(--danger-bg);
+  color:var(--danger);
+}
+
+.btn-success{
+  background:var(--success-bg);
+  color:var(--success);
+}
+
+.btn-small{
+  padding:7px 11px;
+  font-size:.85rem;
+}
+
+.theme-btn{
+  background:var(--primary-light);
+  color:var(--text);
+  border:1px solid var(--border);
+  padding:8px 12px;
+  border-radius:9px;
+}
+
+/* LANDING */
+
+.hero{
+  padding:75px 0;
+  background:linear-gradient(180deg,var(--card),var(--primary-light));
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:45px;
+  align-items:center;
+}
+
+.hero h1{
+  font-size:3rem;
+  line-height:1.15;
+  margin-bottom:18px;
+}
+
+.hero h1 span{
+  color:var(--primary);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:1.08rem;
+  margin-bottom:25px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.preview{
+  background:var(--card);
+  padding:25px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+
+.preview-title{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:18px;
+  font-weight:700;
+}
+
+.preview-item{
+  padding:14px;
+  border-radius:10px;
+  background:var(--primary-light);
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.badge{
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:.75rem;
+  font-weight:700;
+}
+
+.taken{
+  background:var(--success-bg);
+  color:var(--success);
+}
+
+.pending{
+  background:var(--warning-bg);
+  color:var(--warning);
+}
+
+/* FEATURES */
+
+.features{
+  padding:65px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.section-title h2{
+  font-size:2rem;
+  margin-bottom:8px;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.feature{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.feature-icon{
+  font-size:30px;
+  margin-bottom:12px;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  padding:35px 0 60px;
+}
+
+.dashboard-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.stat p{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.stat h3{
+  font-size:1.9rem;
+  margin-top:5px;
+}
+
+/* CONTROLS */
+
+.controls{
+  display:flex;
+  gap:12px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.search{
+  flex:1;
+  min-width:250px;
+  padding:11px 14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  border-radius:9px;
+  outline:none;
+}
+
+.filters{
+  display:flex;
+  gap:5px;
+  background:var(--primary-light);
+  padding:4px;
+  border-radius:9px;
+}
+
+.filter{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:8px 13px;
+  border-radius:7px;
+  font-weight:600;
+}
+
+.filter.active{
+  background:var(--card);
+  color:var(--primary);
+}
+
+/* MEDICINES */
+
+.meds{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:18px;
+}
+
+.med-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.med-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.med-name{
+  font-size:1.2rem;
+  font-weight:700;
+}
+
+.dosage{
+  display:inline-block;
+  background:var(--primary-light);
+  color:var(--primary);
+  padding:4px 8px;
+  border-radius:5px;
+  font-size:.82rem;
+  margin-top:5px;
+}
+
+.med-details{
+  margin:16px 0;
+  color:var(--muted);
+  font-size:.9rem;
+  line-height:1.8;
+}
+
+.actions{
+  border-top:1px solid var(--border);
+  padding-top:14px;
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.empty{
+  text-align:center;
+  padding:50px;
+  border:1px dashed var(--border);
+  border-radius:var(--radius);
+  grid-column:1/-1;
+  color:var(--muted);
+}
+
+/* MODAL */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000;
+}
+
+.overlay.active{
+  display:flex;
+}
+
+.modal{
+  width:min(500px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:25px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:600;
+  margin-bottom:6px;
+  font-size:.9rem;
+}
+
+.input{
+  width:100%;
+  padding:11px 13px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg);
+  color:var(--text);
+  outline:none;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:20px;
+}
+
+/* TOAST */
+
+#toastBox{
+  position:fixed;
+  right:20px;
+  top:85px;
+  z-index:2000;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.toast{
+  min-width:280px;
+  max-width:360px;
+  padding:13px 16px;
+  background:var(--card);
+  color:var(--text);
+  border-left:5px solid var(--primary);
+  border-radius:9px;
+  box-shadow:var(--shadow);
+}
+
+/* HISTORY */
+
+.history{
+  margin-top:30px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+}
+
+.history-list{
+  margin-top:15px;
+}
+
+.history-item{
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  color:var(--muted);
+}
+
+/* FOOTER */
+
+footer{
+  padding:25px 0;
+  text-align:center;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  margin-top:auto;
+}
+
+/* HIDDEN */
+
+.hidden{
+  display:none!important;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .features-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .hero h1{
+    font-size:2.2rem;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-row{
+    grid-template-columns:1fr;
+  }
+
+  .navbar{
+    flex-wrap:wrap;
+    padding:10px 0;
+  }
+
+  .nav-right{
+    margin-left:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="toastBox"></div>
+
+<header>
+  <div class="container navbar">
+
+    <a href="#" class="logo" id="logoBtn">
+      <span class="logo-icon">💊</span>
+      <span>MedRemind</span>
+    </a>
+
+    <div class="nav-right">
+
+      <button class="theme-btn" id="themeBtn">
+        🌙 Dark
+      </button>
+
+      <div id="loggedOut">
+        <button class="btn btn-outline btn-small" id="loginBtn">
+          Log In
+        </button>
+      </div>
+
+      <div id="loggedIn" class="hidden">
+        <span id="avatar">U</span>
+        <button class="btn btn-outline btn-small" id="logoutBtn">
+          Logout
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- LANDING PAGE -->
+
+<section id="landing">
+
+  <div class="hero">
+
+    <div class="container hero-grid">
+
+      <div>
+
+        <h1>
+          Never Miss a Dose with
+          <span>Smart Reminders</span>
+        </h1>
+
+        <p>
+          Manage your medicines, receive reminders,
+          track your daily progress and maintain your medicine history.
+        </p>
+
+        <div class="hero-buttons">
+
+          <button class="btn btn-primary" id="startBtn">
+            Get Started Free
+          </button>
+
+          <button class="btn btn-outline" id="notificationBtn">
+            🔔 Enable Notifications
+          </button>
+
+          <!-- NEW VOICE BUTTON -->
+          <button class="btn btn-outline" id="voiceTestBtn">
+            🔊 Test Voice Reminder
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="preview">
+
+        <div class="preview-title">
+          <span>Today's Schedule</span>
+          <span>📅 Today</span>
+        </div>
+
+        <div class="preview-item">
+          <div>
+            <strong>Paracetamol</strong>
+            <small class="muted">500mg • 08:00 AM</small>
+          </div>
+          <span class="badge taken">Taken</span>
+        </div>
+
+        <div class="preview-item">
+          <div>
+            <strong>Vitamin D</strong>
+            <small class="muted">1 tablet • 02:00 PM</small>
+          </div>
+          <span class="badge pending">Pending</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="features">
+
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Smart Features</h2>
+        <p class="muted">
+          Everything you need for simple medicine tracking.
+        </p>
+      </div>
+
+      <div class="features-grid">
+
+        <div class="feature">
+          <div class="feature-icon">🔊</div>
+          <h3>Voice Reminders</h3>
+          <p class="muted">
+            Hear a voice reminder when your medicine time arrives.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🔔</div>
+          <h3>Notifications</h3>
+          <p class="muted">
+            Receive browser notifications for scheduled medicines.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📋</div>
+          <h3>Medicine History</h3>
+          <p class="muted">
+            Keep track of medicines that you have taken.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3>Daily Statistics</h3>
+          <p class="muted">
+            See pending, taken and adherence percentage.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🌙</div>
+          <h3>Dark Mode</h3>
+          <p class="muted">
+            Switch between light and dark themes.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <h3>Mobile Friendly</h3>
+          <p class="muted">
+            Designed to work on phones, tablets and computers.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="hidden">
+
+  <div class="container dashboard">
+
+    <div class="dashboard-header">
+
+      <div>
+        <h2 id="welcome">Welcome back!</h2>
+        <p class="muted">
+          Here is your medicine overview for today.
+        </p>
+      </div>
+
+      <button class="btn btn-primary" id="addMedicineBtn">
+        + Add Medicine
+      </button>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="stat">
+        <p>Total Medicines</p>
+        <h3 id="totalStat">0</h3>
+      </div>
+
+      <div class="stat">
+        <p>Pending Today</p>
+        <h3 id="pendingStat">0</h3>
+      </div>
+
+      <div class="stat">
+        <p>Taken Today</p>
+        <h3 id="takenStat">0</h3>
+      </div>
+
+      <div class="stat">
+        <p>Adherence Rate</p>
+        <h3 id="rateStat">0%</h3>
+      </div>
+
+    </div>
+
+    <!-- SEARCH -->
+
+    <div class="controls">
+
+      <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="🔎 Search medicine..."
+      >
+
+      <div class="filters">
+
+        <button class="filter active" data-filter="all">
+          All
+        </button>
+
+        <button class="filter" data-filter="pending">
+          Pending
+        </button>
+
+        <button class="filter" data-filter="taken">
+          Taken
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- MEDICINES -->
+
+    <div class="meds" id="medList"></div>
+
+    <!-- HISTORY -->
+
+    <div class="history">
+
+      <h3>📋 Medicine History</h3>
+
+      <div id="historyList" class="history-list">
+        <p class="muted">No history yet.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <div class="container">
+    © 2026 MedRemind — Smart Medicine Reminder Demo
+  </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+
+<div class="overlay" id="loginModal">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2>👤 User Login</h2>
+
+      <button class="close" id="closeLogin">
+        ×
+      </button>
+
+    </div>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+
+        <label>Full Name</label>
+
+        <input
+          class="input"
+          id="userName"
+          type="text"
+          placeholder="Enter your name"
+          required
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Email Address</label>
+
+        <input
+          class="input"
+          id="userEmail"
+          type="email"
+          placeholder="example@email.com"
+          required
+        >
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="btn btn-outline"
+          id="cancelLogin"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Continue
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- MEDICINE MODAL -->
+
+<div class="overlay" id="medicineModal">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2 id="medicineTitle">
+        💊 Add Medicine
+      </h2>
+
+      <button class="close" id="closeMedicine">
+        ×
+      </button>
+
+    </div>
+
+    <form id="medicineForm">
+
+      <input type="hidden" id="medicineId">
+
+      <div class="form-group">
+
+        <label>Medicine Name *</label>
+
+        <input
+          class="input"
+          id="medicineName"
+          type="text"
+          placeholder="e.g. Paracetamol"
+          required
+        >
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label>Dosage *</label>
+
+          <input
+            class="input"
+            id="dosage"
+            type="text"
+            placeholder="e.g. 500mg"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Time *</label>
+
+          <input
+            class="input"
+            id="medicineTime"
+            type="time"
+            required
+          >
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Instructions</label>
+
+        <select class="input" id="instructions">
+
+          <option>Take after meal</option>
+          <option>Take before meal</option>
+          <option>Take with food</option>
+          <option>Take on empty stomach</option>
+          <option>As directed by doctor</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Additional Notes</label>
+
+        <input
+          class="input"
+          id="notes"
+          type="text"
+          placeholder="Optional notes"
+        >
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="btn btn-outline"
+          id="cancelMedicine"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Save Medicine
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ==============================
+   STORAGE
+============================== */
+
+const USER_KEY = "medremind_user";
+const MED_KEY = "medremind_medicines";
+const HISTORY_KEY = "medremind_history";
+const THEME_KEY = "medremind_theme";
+
+/* ==============================
+   STATE
+============================== */
+
+let user =
+  JSON.parse(localStorage.getItem(USER_KEY)) || null;
+
+let medicines =
+  JSON.parse(localStorage.getItem(MED_KEY)) || [];
+
+let history =
+  JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+
+let activeFilter = "all";
+
+let reminderKeys = new Set();
+
+/* ==============================
+   ELEMENTS
+============================== */
+
+const landing =
+  document.getElementById("landing");
+
+const dashboard =
+  document.getElementById("dashboard");
+
+const loginModal =
+  document.getElementById("loginModal");
+
+const medicineModal =
+  document.getElementById("medicineModal");
+
+const loggedOut =
+  document.getElementById("loggedOut");
+
+const loggedIn =
+  document.getElementById("loggedIn");
+
+/* ==============================
+   STORAGE FUNCTIONS
+============================== */
+
+function saveData(){
+
+  localStorage.setItem(
+    MED_KEY,
+    JSON.stringify(medicines)
+  );
+
+  localStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(history)
+  );
+
+}
+
+/* ==============================
+   TOAST
+============================== */
+
+function toast(message){
+
+  const box =
+    document.getElementById("toastBox");
+
+  const item =
+    document.createElement("div");
+
+  item.className = "toast";
+
+  item.textContent = message;
+
+  box.appendChild(item);
+
+  setTimeout(()=>{
+    item.remove();
+  },4000);
+
+}
+
+/* ==============================
+   LOGIN
+============================== */
+
+function openLogin(){
+
+  loginModal.classList.add("active");
+
+}
+
+function closeLogin(){
+
+  loginModal.classList.remove("active");
+
+}
+
+document
+.getElementById("loginBtn")
+.addEventListener("click",openLogin);
+
+document
+.getElementById("startBtn")
+.addEventListener("click",()=>{
+
+  if(user){
+    showDashboard();
+  }else{
+    openLogin();
+  }
+
+});
+
+document
+.getElementById("closeLogin")
+.addEventListener("click",closeLogin);
+
+document
+.getElementById("cancelLogin")
+.addEventListener("click",closeLogin);
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",(e)=>{
+
+  e.preventDefault();
+
+  const name =
+    document.getElementById("userName").value.trim();
+
+  const email =
+    document.getElementById("userEmail").value.trim();
+
+  user = {
+    name:name,
+    email:email
+  };
+
+  localStorage.setItem(
+    USER_KEY,
+    JSON.stringify(user)
+  );
+
+  closeLogin();
+
+  updateNavigation();
+
+  showDashboard();
+
+  toast("Welcome to MedRemind, " + name + "!");
+
+});
+
+/* ==============================
+   NAVIGATION
+============================== */
+
+function updateNavigation(){
+
+  if(user){
+
+    loggedOut.classList.add("hidden");
+    loggedIn.classList.remove("hidden");
+
+    document.getElementById("avatar")
+      .textContent =
+      user.name.charAt(0).toUpperCase();
+
+    document.getElementById("welcome")
+      .textContent =
+      "Welcome back, " + user.name + "!";
+
+  }else{
+
+    loggedOut.classList.remove("hidden");
+    loggedIn.classList.add("hidden");
+
+  }
+
+}
+
+function showDashboard(){
+
+  landing.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+
+  renderMedicines();
+
+}
+
+function showLanding(){
+
+  dashboard.classList.add("hidden");
+  landing.classList.remove("hidden");
+
+}
+
+document
+.getElementById("logoutBtn")
+.addEventListener("click",()=>{
+
+  user = null;
+
+  localStorage.removeItem(USER_KEY);
+
+  updateNavigation();
+
+  showLanding();
+
+  toast("You have been logged out.");
+
+});
+
+document
+.getElementById("logoBtn")
+.addEventListener("click",(e)=>{
+
+  e.preventDefault();
+
+  if(user){
+    showDashboard();
+  }else{
+    showLanding();
+  }
+
+});
+
+/* ==============================
+   MEDICINE MODAL
+============================== */
+
+function openMedicine(){
+
+  document
+    .getElementById("medicineForm")
+    .reset();
+
+  document
+    .getElementById("medicineId")
+    .value = "";
+
+  document
+    .getElementById("medicineTitle")
+    .textContent = "💊 Add Medicine";
+
+  medicineModal.classList.add("active");
+
+}
+
+function closeMedicine(){
+
+  medicineModal.classList.remove("active");
+
+}
+
+document
+.getElementById("addMedicineBtn")
+.addEventListener("click",openMedicine);
+
+document
+.getElementById("closeMedicine")
+.addEventListener("click",closeMedicine);
+
+document
+.getElementById("cancelMedicine")
+.addEventListener("click",closeMedicine);
+
+/* ==============================
+   ADD / EDIT MEDICINE
+============================== */
+
+document
+.getElementById("medicineForm")
+.addEventListener("submit",(e)=>{
+
+  e.preventDefault();
+
+  const id =
+    document.getElementById("medicineId").value;
+
+  const name =
+    document.getElementById("medicineName").value.trim();
+
+  const dosage =
+    document.getElementById("dosage").value.trim();
+
+  const time =
+    document.getElementById("medicineTime").value;
+
+  const instructions =
+    document.getElementById("instructions").value;
+
+  const notes =
+    document.getElementById("notes").value.trim();
+
+  if(id){
+
+    const medicine =
+      medicines.find(m=>m.id === id);
+
+    if(medicine){
+
+      medicine.name = name;
+      medicine.dosage = dosage;
+      medicine.time = time;
+      medicine.instructions = instructions;
+      medicine.notes = notes;
+
+      toast("Medicine updated successfully.");
+
+    }
+
+  }else{
+
+    medicines.push({
+
+      id:Date.now().toString(),
+
+      name:name,
+
+      dosage:dosage,
+
+      time:time,
+
+      instructions:instructions,
+
+      notes:notes,
+
+      taken:false,
+
+      takenAt:null
+
+    });
+
+    toast("Medicine added successfully.");
+
+  }
+
+  saveData();
+
+  closeMedicine();
+
+  renderMedicines();
+
+});
+
+/* ==============================
+   EDIT MEDICINE
+============================== */
+
+window.editMedicine = function(id){
+
+  const medicine =
+    medicines.find(m=>m.id === id);
+
+  if(!medicine) return;
+
+  document
+    .getElementById("medicineId")
+    .value = medicine.id;
+
+  document
+    .getElementById("medicineName")
+    .value = medicine.name;
+
+  document
+    .getElementById("dosage")
+    .value = medicine.dosage;
+
+  document
+    .getElementById("medicineTime")
+    .value = medicine.time;
+
+  document
+    .getElementById("instructions")
+    .value = medicine.instructions;
+
+  document
+    .getElementById("notes")
+    .value = medicine.notes || "";
+
+  document
+    .getElementById("medicineTitle")
+    .textContent = "✏️ Edit Medicine";
+
+  medicineModal.classList.add("active");
+
+};
+
+/* ==============================
+   DELETE MEDICINE
+============================== */
+
+window.deleteMedicine = function(id){
+
+  const medicine =
+    medicines.find(m=>m.id === id);
+
+  if(!medicine) return;
+
+  if(!confirm(
+    "Are you sure you want to delete " +
+    medicine.name + "?"
+  )){
+    return;
+  }
+
+  medicines =
+    medicines.filter(m=>m.id !== id);
+
+  saveData();
+
+  renderMedicines();
+
+  toast("Medicine deleted.");
+
+};
+
+/* ==============================
+   TAKE MEDICINE
+============================== */
+
+window.toggleMedicine = function(id){
+
+  const medicine =
+    medicines.find(m=>m.id === id);
+
+  if(!medicine) return;
+
+  medicine.taken =
+    !medicine.taken;
+
+  if(medicine.taken){
+
+    medicine.takenAt =
+      new Date().toLocaleString();
+
+    history.unshift({
+
+      id:Date.now().toString(),
+
+      medicine:medicine.name,
+
+      dosage:medicine.dosage,
+
+      time:medicine.takenAt,
+
+      action:"Taken"
+
+    });
+
+    toast(
+      medicine.name +
+      " marked as Taken."
+    );
+
+  }else{
+
+    medicine.takenAt = null;
+
+    toast(
+      medicine.name +
+      " marked as Pending."
+    );
+
+  }
+
+  saveData();
+
+  renderMedicines();
+
+};
+
+/* ==============================
+   RENDER MEDICINES
+============================== */
+
+function renderMedicines(){
+
+  const list =
+    document.getElementById("medList");
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+  let filtered =
+    medicines.filter(m=>{
+
+      const matchSearch =
+        m.name.toLowerCase().includes(search) ||
+        m.instructions.toLowerCase().includes(search) ||
+        m.dosage.toLowerCase().includes(search);
+
+      if(activeFilter === "taken"){
+        return matchSearch && m.taken;
+      }
+
+      if(activeFilter === "pending"){
+        return matchSearch && !m.taken;
+      }
+
+      return matchSearch;
+
+    });
+
+  list.innerHTML = "";
+
+  if(filtered.length === 0){
+
+    list.innerHTML = `
+      <div class="empty">
+        <h3>No medicines found</h3>
+        <p>Add a medicine to start your schedule.</p>
+      </div>
+    `;
+
+  }else{
+
+    filtered.forEach(medicine=>{
+
+      const card =
+        document.createElement("div");
+
+      card.className = "med-card";
+
+      card.innerHTML = `
+
+        <div class="med-top">
+
+          <div>
+
+            <div class="med-name">
+              ${escapeHTML(medicine.name)}
+            </div>
+
+            <span class="dosage">
+              ${escapeHTML(medicine.dosage)}
+            </span>
+
+          </div>
+
+          <span class="badge ${
+            medicine.taken
+            ? "taken"
+            : "pending"
+          }">
+
+            ${
+              medicine.taken
+              ? "Taken"
+              : "Pending"
+            }
+
+          </span>
+
+        </div>
+
+        <div class="med-details">
+
+          <div>
+            ⏰ <strong>Time:</strong>
+            ${formatTime(medicine.time)}
+          </div>
+
+          <div>
+            📋 <strong>Instructions:</strong>
+            ${escapeHTML(medicine.instructions)}
+          </div>
+
+          ${
+            medicine.notes
+            ?
+            `<div>
+              📝 <strong>Notes:</strong>
+              ${escapeHTML(medicine.notes)}
+            </div>`
+            :
+            ""
+          }
+
+          ${
+            medicine.takenAt
+            ?
+            `<div>
+              ✅ <strong>Taken at:</strong>
+              ${escapeHTML(medicine.takenAt)}
+            </div>`
+            :
+            ""
+          }
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-small ${
+              medicine.taken
+              ? "btn-outline"
+              : "btn-primary"
+            }"
+            onclick="toggleMedicine('${medicine.id}')"
+          >
+            ${
+              medicine.taken
+              ? "↩ Undo"
+              : "✓ Mark Taken"
+            }
+          </button>
+
+          <button
+            class="btn btn-outline btn-small"
+            onclick="editMedicine('${medicine.id}')"
+          >
+            ✏️ Edit
+          </button>
+
+          <button
+            class="btn btn-danger btn-small"
+            onclick="deleteMedicine('${medicine.id}')"
+          >
+            🗑 Delete
+          </button>
+
+        </div>
+
+      `;
+
+      list.appendChild(card);
+
+    });
+
+  }
+
+  updateStats();
+
+  renderHistory();
+
+}
+
+/* ==============================
+   STATS
+============================== */
+
+function updateStats(){
+
+  const total =
+    medicines.length;
+
+  const taken =
+    medicines.filter(m=>m.taken).length;
+
+  const pending =
+    total - taken;
+
+  const rate =
+    total
+    ? Math.round((taken / total) * 100)
+    : 0;
+
+  document
+    .getElementById("totalStat")
+    .textContent = total;
+
+  document
+    .getElementById("pendingStat")
+    .textContent = pending;
+
+  document
+    .getElementById("takenStat")
+    .textContent = taken;
+
+  document
+    .getElementById("rateStat")
+    .textContent = rate + "%";
+
+}
+
+/* ==============================
+   SEARCH
+============================== */
+
+document
+.getElementById("search")
+.addEventListener("input",renderMedicines);
+
+/* ==============================
+   FILTERS
+============================== */
+
+document
+.querySelectorAll(".filter")
+.forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    document
+      .querySelectorAll(".filter")
+      .forEach(b=>
+        b.classList.remove("active")
+      );
+
+    button.classList.add("active");
+
+    activeFilter =
+      button.dataset.filter;
+
+    renderMedicines();
+
+  });
+
+});
+
+/* ==============================
+   HISTORY
+============================== */
+
+function renderHistory(){
+
+  const box =
+    document.getElementById("historyList");
+
+  if(history.length === 0){
+
+    box.innerHTML =
+      `<p class="muted">
+        No medicine history yet.
+      </p>`;
+
+    return;
+
+  }
+
+  box.innerHTML = "";
+
+  history
+    .slice(0,20)
+    .forEach(item=>{
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "history-item";
+
+      row.innerHTML = `
+        ✅ <strong>
+          ${escapeHTML(item.medicine)}
+        </strong>
+        — ${escapeHTML(item.dosage)}
+        <br>
+        <small>
+          ${escapeHTML(item.time)}
+        </small>
+      `;
+
+      box.appendChild(row);
+
+    });
+
+}
+
+/* ==============================
+   NOTIFICATIONS
+============================== */
+
+document
+.getElementById("notificationBtn")
+.addEventListener("click",requestNotifications);
+
+async function requestNotifications(){
+
+  if(!("Notification" in window)){
+
+    toast(
+      "This browser does not support notifications."
+    );
+
+    return;
+
+  }
+
+  const permission =
+    await Notification.requestPermission();
+
+  if(permission === "granted"){
+
+    toast(
+      "Notifications enabled successfully! 🔔"
+    );
+
+  }else{
+
+    toast(
+      "Notification permission was not granted."
+    );
+
+  }
+
+}
+
+/* ==============================
+   VOICE REMINDER
+============================== */
+
+function speak(message){
+
+  if(!("speechSynthesis" in window)){
+
+    toast(
+      "Voice reminder is not supported by this browser."
+    );
+
+    return;
+
+  }
+
+  window.speechSynthesis.cancel();
+
+  const speech =
+    new SpeechSynthesisUtterance(message);
+
+  speech.rate = 0.9;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech);
+
+}
+
+
+/* ==============================
+   NEW VOICE TEST BUTTON
+============================== */
+
+document
+.getElementById("voiceTestBtn")
+.addEventListener("click",()=>{
+
+  speak(
+    "Hello! This is MedRemind. " +
+    "It is time to take your medicine."
+  );
+
+  toast("🔊 Voice reminder started.");
+
+});
+
+
+/* ==============================
+   REMINDER SYSTEM
+============================== */
+
+function checkReminders(){
+
+  const now =
+    new Date();
+
+  const hour =
+    String(now.getHours())
+      .padStart(2,"0");
+
+  const minute =
+    String(now.getMinutes())
+      .padStart(2,"0");
+
+  const current =
+    hour + ":" + minute;
+
+  medicines.forEach(medicine=>{
+
+    if(
+      medicine.time === current &&
+      !medicine.taken
+    ){
+
+      const key =
+        medicine.id +
+        "-" +
+        current +
+        "-" +
+        now.toDateString();
+
+      if(reminderKeys.has(key)){
+        return;
+      }
+
+      reminderKeys.add(key);
+
+      const message =
+        "Reminder. It is time to take " +
+        medicine.name +
+        ". Dosage " +
+        medicine.dosage;
+
+      toast("⏰ " + message);
+
+      speak(message);
+
+      if(
+        "Notification" in window &&
+        Notification.permission === "granted"
+      ){
+
+        new Notification(
+          "⏰ MedRemind Reminder",
+          {
+            body:
+              medicine.name +
+              " — " +
+              medicine.dosage +
+              "\n" +
+              medicine.instructions
+          }
+        );
+
+      }
+
+    }
+
+  });
+
+}
+
+
+/* Check every 15 seconds */
+
+setInterval(
+  checkReminders,
+  15000
+);
+
+
+/* ==============================
+   DARK MODE
+============================== */
+
+function applyTheme(theme){
+
+  document
+    .documentElement
+    .setAttribute(
+      "data-theme",
+      theme
+    );
+
+  localStorage.setItem(
+    THEME_KEY,
+    theme
+  );
+
+  document
+    .getElementById("themeBtn")
+    .textContent =
+    theme === "dark"
+    ? "☀️ Light"
+    : "🌙 Dark";
+
+}
+
+const savedTheme =
+  localStorage.getItem(THEME_KEY)
+  || "light";
+
+applyTheme(savedTheme);
+
+document
+.getElementById("themeBtn")
+.addEventListener("click",()=>{
+
+  const current =
+    document
+      .documentElement
+      .getAttribute("data-theme");
+
+  applyTheme(
+    current === "dark"
+    ? "light"
+    : "dark"
+  );
+
+});
+
+/* ==============================
+   HTML SECURITY HELPER
+============================== */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+/* ==============================
+   TIME FORMAT
+============================== */
+
+function formatTime(time){
+
+  if(!time) return "";
+
+  const parts =
+    time.split(":");
+
+  let hour =
+    parseInt(parts[0],10);
+
+  const minute =
+    parts[1];
+
+  const ampm =
+    hour >= 12
+    ? "PM"
+    : "AM";
+
+  hour =
+    hour % 12 || 12;
+
+  return (
+    hour +
+    ":" +
+    minute +
+    " " +
+    ampm
+  );
+
+}
+
+/* ==============================
+   START APPLICATION
+============================== */
+
+updateNavigation();
+
+if(user){
+  showDashboard();
+}else{
+  showLanding();
+}
+
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Service Worker registered"))
+      .catch((error) => console.log("Service Worker error:", error));
+  });
+}
+</script>
+
+</body>
+</html>
