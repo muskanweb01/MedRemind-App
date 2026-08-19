@@ -1,9 +1,13 @@
+
 {
   "name": "MedRemind - Smart Medicine Reminder",
   "short_name": "MedRemind",
+  "description": "A smart medicine reminder app that helps users manage and remember their medicines.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
-  "description": "Smart medicine reminder app"
+  "lang": "en",
+  "orientation": "portrait"
 }
