@@ -1,0 +1,17 @@
+{
+  "background_color": "#ffffff",
+  "dir": "auto",
+  "display": "standalone",
+  "name": "MedRemind",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "MedRemind",
+  "start_url": "https://muskanweb01.github.io/medremind/",
+  "theme_color": "#2563eb",
+  "description": "MedRemind helps users manage and track their medicines and medication reminders.",
+  "lang": "en",
+  "categories": [
+    "health"
+  ],
+  "id": "/medremind"
+}
