@@ -1,15 +1,9 @@
 {
-  "background_color": "#ffffff",
-  "dir": "auto",
-  "display": "standalone",
-  "name": "MedRemind",
-  "orientation": "portrait",
-  "scope": "https://muskanweb01.github.io/medremind/",
+  "name": "MedRemind - Smart Medicine Reminder",
   "short_name": "MedRemind",
-  "start_url": "https://muskanweb01.github.io/medremind/",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
   "theme_color": "#2563eb",
-  "id": "MedRemind",
-  "description": "Smart medicine reminders to help you never miss a dose",
-  "lang": "en",
-  "prefer_related_applications": false
+  "description": "Smart medicine reminder app"
 }
